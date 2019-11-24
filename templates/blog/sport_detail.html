@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+<h1>Sport</h1>
 {% for category in categories %}
     <p><a href="{% url 'category' category.slug %}">{{ category.name }}</a></p>
 {% endfor %}
@@ -12,7 +13,6 @@
     <h2>{{ post.title }}</h2>
     <p>{{ post.mini_text }}</p>
     <p>Категория - {{ post.category }}</p>
-{#    Теги - {% for tag in post.get_tags %}#}
     Теги - {% for tag in post.tags.all %}
                  {{ tag.name }},
             {% endfor %}
@@ -21,11 +21,6 @@
     <hr>
 
     <h4>Комментарии</h4>
-{#     {% for comment in comments %}#}
-{#        Пользователь - {{ comment.author }}<br>#}
-{#        {{ comment.text }} <br>#}
-{#        Добавлен - {{ comment.create_date }}<br><br>#}
-{#     {% endfor %}#}
     {% for comment in post.comment_set.all %}
         Пользователь - {{ comment.author }}<br>
         {{ comment.text }} <br>
