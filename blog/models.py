@@ -31,8 +31,8 @@ class Category(MPTTModel):
     # class MPTTMeta:
     #     order_insertion_by = ('sort',)
     #
-    # def get_absolute_url(self):
-    #     return reverse('news:list-news', kwargs={'slug': self.slug})
+    def get_absolute_url(self):
+        return reverse('category', kwargs={'category_slug': self.slug})
 
     def __str__(self):
         return self.name
@@ -105,8 +105,8 @@ class Post(models.Model):
     # def get_category_slug(self):
     #     return self.category.slug
     #
-    # def get_category_template(self):
-    #     return self.category.template
+    def get_category_template(self):
+        return self.category.template
     #
     # def get_category_paginated(self):
     #     return self.category.paginated

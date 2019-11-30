@@ -9,24 +9,23 @@
     <p><a href="{% url 'category' category.slug %}">{{ category.name }}</a></p>
 {% endfor %}
 <hr>
-    <h2>{{ post.title }}</h2>
+    <h1>{{ post.title }}</h1>
+    <h4>{{ post.subtitle }}</h4>
     <p>{{ post.mini_text }}</p>
     <p>Категория - {{ post.category }}</p>
-{#    Теги - {% for tag in post.get_tags %}#}
     Теги - {% for tag in post.tags.all %}
-                 {{ tag.name }},
+                {% if tag.published %}
+                    <a href="{% url 'tag' tag.slug %}">{{ tag.name }}</a>,
+                {% endif %}
             {% endfor %}
+
     <br>
-    <small>Автор: {{ post.author }} -{{ post.published_date }}</small>
+    <small>Автор: {{ post.author }} - {{ post.published_date }}</small><br>
+    <small>Просмотры: {{ post.viewed }}</small>
     <hr>
 
     <h4>Комментарии</h4>
-{#     {% for comment in comments %}#}
-{#        Пользователь - {{ comment.author }}<br>#}
-{#        {{ comment.text }} <br>#}
-{#        Добавлен - {{ comment.create_date }}<br><br>#}
-{#     {% endfor %}#}
-    {% for comment in post.comment_set.all %}
+    {% for comment in post.comments.all %}
         Пользователь - {{ comment.author }}<br>
         {{ comment.text }} <br>
         Добавлен - {{ comment.create_date }}<br><br>
