@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.base import View
 
@@ -15,7 +15,7 @@ class PostListView(View):
         return Post.objects.filter(published_date__lte=datetime.now(), published=True)
 
     def get(self, request, category_slug=None, slug=None):
-        category_list = Category.objects.filter(published=True)
+        # category_list = Category.objects.filter(published=True)
         if category_slug is not None:
             posts = self.get_queryset().filter(category__slug=category_slug,
                                                category__published=True)
@@ -26,8 +26,9 @@ class PostListView(View):
         if posts.exists():
             template = posts.first().get_category_template()
         else:
-            template = "blog/post_list.html"
-        return render(request, template, {"post_list": posts, "categories": category_list})
+            # template = "blog/post_list.html"
+            raise Http404()
+        return render(request, template, {"post_list": posts})
 
 
 class PostDetailView(View):

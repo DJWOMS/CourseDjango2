@@ -1,0 +1,16 @@
+{% load mptt_tags %}
+{#{% for category in category_list %}#}
+{#    <a style="color: blue;" href="{{ category.get_absolute_url }}">{{ category.name }}</a>#}
+{#{% endfor %}#}
+<ul class="root">
+    {% recursetree category_list %}
+        <li>
+            {{ node.name }}
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>

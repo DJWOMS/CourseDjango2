@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+{% load blog_tags %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-{% for category in categories %}
-    <p><a href="{% url 'category' category.slug %}">{{ category.name }}</a></p>
-{% endfor %}
+
+{% category_list count=3 %}
+
 <hr>
     <h1>{{ post.title }}</h1>
     <h4>{{ post.subtitle }}</h4>
