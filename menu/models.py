@@ -46,7 +46,7 @@ class MenuItem(MPTTModel):
     content_type = models.ForeignKey(
         ContentType,
         verbose_name=_("Ссылка на"),
-        #limit_choices_to=settings.MENU_APPS,
+        limit_choices_to=settings.MENU_APPS,
         on_delete=models.CASCADE,
         null=True,
         blank=True)
