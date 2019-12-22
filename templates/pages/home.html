@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-{% load menu_tags %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% menu_item menu="Main" %}
-<ul>
-    {% if user.is_authenticated %}
-        <li><a href="/accounts/logout/">Выход</a></li>
-    {% else %}
-        <li><a href="/accounts/login/">Вход</a></li>
-    {% endif %}
-</ul>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>{{ page.title }}</h1>
     <p>{{ page.text|safe }}</p>
-</body>
-</html>
+{% endblock content %}

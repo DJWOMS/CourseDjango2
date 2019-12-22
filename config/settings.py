@@ -21,13 +21,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(i3bak834sp*o0f$=+u0w!lr%g^i7qx%!rghe#g53_m7ffl4t-'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -87,12 +80,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+
 
 
 # Password validation
@@ -133,9 +121,7 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [STATIC_DIR, ]
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -174,12 +160,9 @@ MENU_APPS = (
 )
 
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+try:
+    from .local_settings import *
+except:
+    from .prod_settings import *
 
-DEFAULT_FROM_EMAIL = 'email'
-EMAIL_HOST = 'smtp'
-EMAIL_HOST_USER = 'email'
-EMAIL_HOST_PASSWORD = 'pass'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+

@@ -1,45 +1,222 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load blog_tags %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-{% category_list count=3 %}
+{% block content %}
+    <div class="show-top-grids">
+        <div class="col-sm-8 single-left">
+            <div class="clearfix"></div>
+            <div class="published">
+                <script src="jquery.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        size_li = $("#myList li").size();
+                        x = 1;
+                        $('#myList li:lt(' + x + ')').show();
+                        $('#loadMore').click(function () {
+                            x = (x + 1 <= size_li) ? x + 1 : size_li;
+                            $('#myList li:lt(' + x + ')').show();
+                        });
+                        $('#showLess').click(function () {
+                            x = (x - 1 < 0) ? 1 : x - 1;
+                            $('#myList li').not(':lt(' + x + ')').hide();
+                        });
+                    });
+                </script>
+                <div class="load_more">
+                    <ul id="myList">
+                        <li>
+                            <h4>{{ post.title }}</h4>
+                            {{ post.text|safe }}
+                            <div class="load-grids">
+                                <div class="load-grid">
+                                    <p>Category</p>
+                                </div>
+                                <div class="load-grid">
+                                    <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="all-comments">
+                <div class="all-comments-info">
+                    <a href="#">All Comments ({{ post.get_comments_count }})</a>
+                    <div class="box">
+                        {% if user.is_authenticated %}
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button type="submit">Отправить</button>
+                            </form>
+                        {% else %}
+                            <p>Что бы оставить комментарий войдите на сайт</p>
+                        {% endif %}
+                    </div>
+                    <div class="all-comments-buttons">
+                        <ul>
+                            <li><a href="#" class="top">Top Comments</a></li>
+                            <li><a href="#" class="top newest">Newest First</a></li>
+                            <li><a href="#" class="top my-comment">My Comments</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="media-grids">
+                    {% for comment in post.comments.all %}
+                        <div class="media">
+                            <h5>{{ comment.author }}</h5>
+                            <div class="media-left">
+                                <a href="#">
 
-<hr>
-    <h1>{{ post.title }}</h1>
-    <h4>{{ post.subtitle }}</h4>
-    <p>{{ post.mini_text }}</p>
-    <p>Категория - {{ post.category }}</p>
-    Теги - {% for tag in post.tags.all %}
-                {% if tag.published %}
-                    <a href="{% url 'tag' tag.slug %}">{{ tag.name }}</a>,
-                {% endif %}
-            {% endfor %}
-
-    <br>
-    <small>Автор: {{ post.author }} - {{ post.published_date }}</small><br>
-    <small>Просмотры: {{ post.viewed }}</small>
-    <hr>
-
-    <h4>Комментарии</h4>
-    {% if user.is_authenticated %}
-        <form action="" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Отправить</button>
-        </form>
-    {% else %}
-        <p>Что бы оставить комментарий войдите на сайт</p>
-    {% endif %}
-    <hr>
-    {% for comment in post.comments.all %}
-        Пользователь - {{ comment.author }}<br>
-        {{ comment.text }} <br>
-        Добавлен - {{ comment.create_date }}<br><br>
-    {% endfor %}
-</body>
-</html>
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <p>{{ comment.text }}</p>
+                                <span>V{{ comment.create_date }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 single-right">
+            <h3>Up Next</h3>
+            <div class="single-grid-right">
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r1.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author"><a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r2.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author"><a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r3.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author"><a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r4.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author"><a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r5.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author"><a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r6.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author">By <a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r1.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author"><a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r2.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author"><a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r3.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author"><a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r4.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author"><a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r5.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author"><a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="single-right-grids">
+                    <div class="col-md-4 single-right-grid-left">
+                        <a href="single.html"><img src="images/r6.jpg" alt=""/></a>
+                    </div>
+                    <div class="col-md-8 single-right-grid-right">
+                        <a href="single.html" class="title"> Nullam interdum metus</a>
+                        <p class="author"><a href="#" class="author">John Maniya</a></p>
+                        <p class="views">2,114,200 views</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+{% endblock content %}

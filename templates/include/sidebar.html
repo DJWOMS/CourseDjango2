@@ -1,0 +1,67 @@
+{% load static blog_tags %}
+{% load menu_tags %}
+<div class="col-sm-3 col-md-2 sidebar">
+    <div class="top-navigation">
+        <div class="t-menu">MENU</div>
+        <div class="t-img">
+            <img src="{% static 'images/lines.png' %}" alt=""/>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="drop-navigation drop-navigation">
+        <ul class="nav nav-sidebar">
+            <li class="active">
+                <a href="#" class="menu1">
+                    <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
+                    Категории
+                    <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+                </a>
+            </li>
+            {% for_category_list as category_list %}
+            <ul class="cl-effect-2">
+                {% for category in category_list %}
+                    <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% menu_item menu="Main" %}
+            <!-- script-for-menu -->
+            <script>
+                $("li a.menu1").click(function () {
+                    $("ul.cl-effect-2").slideToggle(300, function () {
+                        // Animation complete.
+                    });
+                });
+            </script>
+            <!-- script-for-menu -->
+            <script>
+                $("li a.menu").click(function () {
+                    $("ul.cl-effect-1").slideToggle(300, function () {
+                        // Animation complete.
+                    });
+                });
+            </script>
+        </ul>
+        <!-- script-for-menu -->
+        <script>
+            $(".top-navigation").click(function () {
+                $(".drop-navigation").slideToggle(300, function () {
+                    // Animation complete.
+                });
+            });
+        </script>
+        <div class="side-bottom">
+            <div class="side-bottom-icons">
+                <ul class="nav2">
+                    <li><a href="#" class="facebook"> </a></li>
+                    <li><a href="#" class="facebook twitter"> </a></li>
+                    <li><a href="#" class="facebook chrome"> </a></li>
+                    <li><a href="#" class="facebook dribbble"> </a></li>
+                </ul>
+            </div>
+            <div class="copyright">
+                <p>Copyright © 2015 My Play. All Rights Reserved | Design by <a
+                        href="http://w3layouts.com/">W3layouts</a></p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,33 +1,56 @@
-<!DOCTYPE html>
-{% load blog_tags menu_tags %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-{#{% for_category_list count=3 order="-id" as  categories %}#}
-{#{% for category in categories %}#}
-{#    <p><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></p>#}
-{#{% endfor %}#}
-{#<hr>#}
-
-{% menu_item menu="Main" %}
-<hr>
-{% category_list template='base/blog/categories.html'%}
-
-
-{% if post_list %}
-    {% for post in post_list %}
-        <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
-        <p>{{ post.mini_text }}</p>
-        <small>{{ post.published_date }}</small>
-        <small>Просмотров - {{ post.viewed }}</small><br>
-        <small>Комментариев - {{ post.get_comments_count}}</small>
-    {% endfor %}
-{% else %}
-    <h2>Статей нет</h2>
-{% endif %}
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static menu_tags blog_tags %}
+{% block content %}
+    {#    #}
+    {#    {% menu_item menu="Main" %}#}
+    {#    <hr>#}
+    {#    {% category_list template='base/blog/categories.html' %}#}
+    <div class="main-grids">
+        <div class="top-grids">
+            {% if post_list %}
+                <div class="recommended-info">
+                    <h3>Recent Videos</h3>
+                </div>
+                {% for post in post_list %}
+                    <div class="col-md-4 resent-grid recommended-grid slider-top-grids">
+                        <div class="resent-grid-img recommended-grid-img">
+                            <a href="{{ post.get_absolute_url }}">
+                                {% if post.image %}
+                                    <img src="{{ post.image.url }}" alt=""/>
+                                {% endif %}
+                            </a>
+                            <div class="time">
+                                <p><span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                                    {{ post.published_date }}</p>
+                            </div>
+{#                            <div class="clck">#}
+{#                                #}
+{#                            </div>#}
+                        </div>
+                        <div class="resent-grid-info recommended-grid-info">
+                            <h3>
+                                <a href="{{ post.get_absolute_url }}" class="title title-info">
+                                    {{ post.title }}
+                                </a>
+                            </h3>
+                            <ul>
+                                <li><p class="author author-info">
+                                    {% if post.author %}
+                                        <a href="#" class="author">
+                                            {{ post.author }}
+                                        </a>
+                                    {% endif %}
+                                </p></li>
+                                <li class="right-list"><p
+                                        class="views views-info">{{ post.viewed }}</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2>Статей нет</h2>
+            {% endif %}
+            <div class="clearfix"></div>
+        </div>
+    </div>
+{% endblock content %}
